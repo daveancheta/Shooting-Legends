@@ -3,42 +3,51 @@ import { useEffect, useRef } from "react"
 function Range() {
     const saitama = useRef<HTMLImageElement | null>(null)
     const mario = useRef<HTMLImageElement | null>(null)
-    const speed = 1;
+    const speed = useRef<number>(1)
 
     const leftPos = useRef<number>(10)
-    const rightPost = useRef<number>(10)
+    const rightPos = useRef<number>(10)
 
     useEffect(() => {
 
         const autoRun = () => {
-            leftPos.current += speed;
-            rightPost.current += speed;
+            leftPos.current += speed.current;
+            rightPos.current += speed.current;
 
             if (saitama.current) {
                 saitama.current.style.left = leftPos.current + "px"
             }
 
             if (mario.current) {
-                mario.current.style.right = rightPost.current + "px"
+                mario.current.style.right = rightPos.current + "px"
             }
 
             if (leftPos.current > window.innerWidth) {
                 leftPos.current = -110;
             }
 
-            if (rightPost.current > window.innerWidth) {
-                rightPost.current = -110;
+            if (rightPos.current > window.innerWidth) {
+                rightPos.current = -110;
             }
 
             requestAnimationFrame(autoRun)
         }
-
         autoRun()
-
     })
+
+    const shootSaitama = () => {
+        speed.current += 0.5;
+        leftPos.current = -110;
+    }
+
+    const shootMario = () => {
+        speed.current += 0.5;
+        rightPos.current = -110;
+    }
+
     return (
         <div>
-            <img ref={saitama}
+            <img className="select-none" ref={saitama}
                 style={{
                     position: "fixed",
                     top: "10px",
@@ -46,16 +55,19 @@ function Range() {
                     width: "150px",
                     height: "150px"
                 }}
-                src="saitama.png" alt="saitama" />
-            <img ref={mario}
+                src="saitama.png" alt="saitama" 
+                onClick={shootSaitama}/>
+                
+            <img className="select-none" ref={mario}
                 style={{
                     position: "fixed",
                     top: "150px",
                     right: "10px",
                     width: "150px",
-                    height: "150px"
+                    height: "150px",
                 }}
-                src="mario.png" alt="saitama" />
+                src="mario.png" alt="saitama" 
+                onClick={shootMario}/>
         </div>
     )
 }
