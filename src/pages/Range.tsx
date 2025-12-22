@@ -21,7 +21,9 @@ function Range() {
     const [isMatchStarted, setIsMatchStarted] = useState(false)
     const animationFrameId = useRef<number | null>(null)
     const [score, setScore] = useState(0)
-    const [bullet, setBullet] = useState(47)
+    let MAX_BULLET = 47
+    const [bullet, setBullet] = useState(MAX_BULLET)
+    const startButton = useRef<HTMLButtonElement | null>(null)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -53,13 +55,8 @@ function Range() {
             animationFrameId.current = requestAnimationFrame(autoRun)
         }
 
-        if (isMatchStarted) {
-            autoRun()
-        } else {
-            if (animationFrameId.current) {
-                cancelAnimationFrame(animationFrameId.current)
-            }
-        }
+
+        if (isMatchStarted) autoRun();
 
         document.body.addEventListener("mousemove", (e) => {
             mouseX.current = e.clientX
@@ -72,21 +69,28 @@ function Range() {
 
         })
 
-        if (!isMatchStarted) return;
-
-        document.addEventListener("click", startShoot)
-
-        return () => {
-            document.removeEventListener("click", startShoot)
-        }
-
     }, [isMatchStarted])
 
-    const startShoot = () => {
+    useEffect(() => {
+        if (!isMatchStarted) return;
+        if (bullet <= 0) return;
+
+        document.addEventListener("click", shoot)
+
+        return () => {
+            document.removeEventListener("click", shoot)
+        }
+
+    }, [isMatchStarted, bullet])
+
+    const shoot = (e: any) => {
+
+        if (e.target.tagName === "BUTTON") return;
+
         const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
         gunshotSoundEffect.play()
 
-        setBullet((bullet) => bullet -= 1)
+        setBullet(b => Math.max(0, b - 1))
     }
 
     const shootLeftPos = () => {
@@ -106,7 +110,7 @@ function Range() {
         leftPos.current = 0;
         rightPos.current = 0;
         setScore(0)
-        setBullet(47)
+        setBullet(MAX_BULLET)
 
 
         if (animationFrameId.current) {
@@ -124,8 +128,6 @@ function Range() {
 
     return (
         <div>
-            <span className="fixed top-50 text-white">{isMatchStarted ? "true" : "false"}</span>
-
             <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
                 <div className="relative w-6 h-6">
                     <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
@@ -158,15 +160,13 @@ function Range() {
                 onClick={isMatchStarted && shootRightPos} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
-                <Button
-                    onClick={() => { setIsMatchStarted(true) }}
+                <Button ref={startButton}
+                    onClick={() => {
+                        setIsMatchStarted(true)
+                    }}
                     variant={'default'}
                     className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
                 <div className="flex flex-row gap-2">
-                    <Button
-                        onClick={() => setIsMatchStarted(false)}
-                        variant={'default'}
-                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
 
                     <Button
                         onClick={() => {
@@ -174,7 +174,7 @@ function Range() {
                             setIsMatchStarted(false)
                         }}
                         variant={'destructive'}
-                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Reset</Button>
+                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
                 </div>
             </div>
 
@@ -203,7 +203,7 @@ function Range() {
                     </div>
                     <div className="flex flex-col items-center">
                         <span className="text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
-                            {bullet <= 0 ? "0" : bullet}
+                            {bullet}
                         </span>
                         <p className="text-sm font-semibold text-amber-100 uppercase tracking-wide">
                             Bullet
