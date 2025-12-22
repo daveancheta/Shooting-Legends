@@ -72,19 +72,22 @@ function Range() {
 
         })
 
-        if (isMatchStarted) {
-            const startShoot = () => {
-                const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
-                gunshotSoundEffect.play()
+        if (!isMatchStarted) return;
 
-                setBullet((bullet) => bullet -= 1)
+        document.addEventListener("click", startShoot)
 
-            }
-
-            document.body.addEventListener("click", startShoot)
+        return () => {
+            document.removeEventListener("click", startShoot)
         }
-        
+
     }, [isMatchStarted])
+
+    const startShoot = () => {
+        const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+        gunshotSoundEffect.play()
+
+        setBullet((bullet) => bullet -= 1)
+    }
 
     const shootLeftPos = () => {
         speed.current += 0.1;
@@ -103,6 +106,8 @@ function Range() {
         leftPos.current = 0;
         rightPos.current = 0;
         setScore(0)
+        setBullet(47)
+
 
         if (animationFrameId.current) {
             cancelAnimationFrame(animationFrameId.current)
@@ -119,6 +124,8 @@ function Range() {
 
     return (
         <div>
+            <span className="fixed top-50 text-white">{isMatchStarted ? "true" : "false"}</span>
+
             <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
                 <div className="relative w-6 h-6">
                     <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
@@ -152,7 +159,7 @@ function Range() {
 
             <div className="fixed bottom-10 w-screen flex justify-center">
                 <Button
-                    onClick={() => setIsMatchStarted(true)}
+                    onClick={() => { setIsMatchStarted(true) }}
                     variant={'default'}
                     className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
                 <div className="flex flex-row gap-2">
