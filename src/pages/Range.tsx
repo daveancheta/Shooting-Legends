@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { Crosshair } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 // todo: add start button - done
@@ -6,7 +7,8 @@ import { useEffect, useRef, useState } from "react"
 // todo: add reset speed button - done
 // todo: add crosshair - done
 // todo: add fire sound - done
-// todo: add scoreboard
+// todo: add scoreboard - done
+// todo: add +1 score if successfully hit the target - done
 // todo: add ammo
 // todo: add hit animation
 // todo: add game over if run out of ammo
@@ -18,6 +20,7 @@ function Range() {
     const crosshair = useRef<HTMLDivElement | null>(null)
     const [isMatchStarted, setIsMatchStarted] = useState(false)
     const animationFrameId = useRef<number | null>(null)
+    const [score, setScore] = useState(0)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -69,18 +72,12 @@ function Range() {
 
         })
 
-        const startShoot = () => {
-            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
-            gunshotSoundEffect.play()
-        }
+        // const startShoot = () => {
+        //     const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+        //     gunshotSoundEffect.play()
+        // }
 
-        const stopShoot = () => {
-            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
-            gunshotSoundEffect.pause()
-        }
-
-        document.body.addEventListener("mousedown", startShoot)
-        document.body.addEventListener("mouseup", stopShoot)
+        // document.body.addEventListener("click", startShoot)
     })
 
 
@@ -129,7 +126,10 @@ function Range() {
                     height: "150px"
                 }}
                 src="saitama.png" alt="saitama"
-                onClick={shootLeftPos} />
+                onClick={() => {
+                    shootLeftPos
+                    setScore((score) => score += 1)
+                }} />
 
             <img className="select-none" ref={mario}
                 draggable={false}
@@ -141,7 +141,10 @@ function Range() {
                     height: "150px",
                 }}
                 src="mario.png" alt="saitama"
-                onClick={shootRightPos} />
+                onClick={() => {
+                    shootRightPos
+                    setScore((score) => score += 1)
+                }} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
                 <Button
@@ -161,6 +164,23 @@ function Range() {
                         }}
                         variant={'destructive'}
                         className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Reset</Button>
+                </div>
+            </div>
+
+            <div className="fixed bottom-2 left-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
+                <div className="flex flex-row gap-3 items-center">
+                    <div className="relative">
+                        <Crosshair className="size-10 text-white drop-shadow-md animate-pulse" />
+                        <div className="absolute inset-0 bg-amber-300/20 rounded-full blur-md animate-ping" />
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <span className="animate-bounce text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
+                            {score}
+                        </span>
+                        <p className="text-sm font-semibold text-amber-100 uppercase tracking-wide">
+                            Score
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
