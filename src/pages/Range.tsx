@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 
 // todo: add start button - done
 // todo: add stop button - done
-// todo: add reset speed button
+// todo: add reset speed button - done
 // todo: add crosshair - done
 // todo: add fire sound
 
@@ -46,13 +46,13 @@ function Range() {
 
 
         }
-            if (isMatchStarted) {
-                autoRun()
-            } else {
-                if (animationFrameId.current) {
-                    cancelAnimationFrame(animationFrameId.current)
-                }
+        if (isMatchStarted) {
+            autoRun()
+        } else {
+            if (animationFrameId.current) {
+                cancelAnimationFrame(animationFrameId.current)
             }
+        }
 
         document.body.addEventListener("mousemove", (e) => {
             mouseX.current = e.clientX
@@ -76,6 +76,20 @@ function Range() {
         rightPos.current = -110;
     }
 
+    const resetMatch = () => {
+        speed.current = 1;
+        leftPos.current = 0;
+        rightPos.current = 0;
+
+        if (saitama.current) {
+            saitama.current.style.left = "10px";
+        }
+
+        if (mario.current) {
+            mario.current.style.right = "10px";
+        }
+    }
+
     return (
         <div>
             <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
@@ -83,18 +97,6 @@ function Range() {
                     <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
                     <div className="absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 bg-white" />
                 </div>
-            </div>
-
-            <div className="fixed bottom-10 w-screen flex justify-center">
-                <Button
-                    onClick={() => setIsMatchStarted(true)}
-                    variant={'default'}
-                    className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
-
-                <Button
-                    onClick={() => setIsMatchStarted(false)}
-                    variant={'default'}
-                    className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
             </div>
 
             <img className="select-none" ref={saitama}
@@ -121,7 +123,26 @@ function Range() {
                 src="mario.png" alt="saitama"
                 onClick={shootRightPos} />
 
+            <div className="fixed bottom-10 w-screen flex justify-center">
+                <Button
+                    onClick={() => setIsMatchStarted(true)}
+                    variant={'default'}
+                    className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
+                <div className="flex flex-row gap-2">
+                    <Button
+                        onClick={() => setIsMatchStarted(false)}
+                        variant={'default'}
+                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
 
+                    <Button
+                        onClick={() => {
+                            resetMatch()
+                            setIsMatchStarted(false)
+                        }}
+                        variant={'destructive'}
+                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Reset</Button>
+                </div>
+            </div>
         </div>
     )
 }
