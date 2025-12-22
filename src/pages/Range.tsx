@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react"
 // todo: add fire sound - done
 // todo: add scoreboard - done
 // todo: add +1 score if successfully hit the target - done
-// todo: add bullet
+// todo: add bullet - done
 // todo: add hit animation
 // todo: add game over if run out of ammo
 
