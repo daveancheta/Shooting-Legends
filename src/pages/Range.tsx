@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Crosshair } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import GameOver from "./GameOver"
 
 // todo: add start button - done
 // todo: add stop button - done
@@ -11,7 +12,9 @@ import { useEffect, useRef, useState } from "react"
 // todo: add +1 score if successfully hit the target - done
 // todo: add bullet - done
 // todo: add hit animation
-// todo: add game over if run out of ammo
+// todo: add game over if run out of ammo - done
+// todo: add cursor option
+// todo: add settings for difficulty
 
 function Range() {
     const saitama = useRef<HTMLImageElement | null>(null)
@@ -111,7 +114,7 @@ function Range() {
         rightPos.current = 0;
         setScore(0)
         setBullet(MAX_BULLET)
-
+        setIsMatchStarted(false)
 
         if (animationFrameId.current) {
             cancelAnimationFrame(animationFrameId.current)
@@ -126,9 +129,14 @@ function Range() {
         }
     }
 
+
     return (
         <div>
-            <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
+            {bullet <= 0 &&
+            <div className="inset-0 fixed z-9999">
+                <GameOver finalScore={score} restart={resetMatch} />
+            </div>}
+            <div ref={crosshair} className={`fixed flex items-center justify-center pointer-events-none z-50 ${bullet <= 0 && "hidden"}`}>
                 <div className="relative w-6 h-6">
                     <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
                     <div className="absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 bg-white" />
@@ -142,7 +150,8 @@ function Range() {
                     top: "10px",
                     left: "10px",
                     width: "150px",
-                    height: "150px"
+                    height: "150px",
+                    background: "none"
                 }}
                 src="saitama.png" alt="saitama"
                 onClick={isMatchStarted && shootLeftPos} />
@@ -165,20 +174,17 @@ function Range() {
                         setIsMatchStarted(true)
                     }}
                     variant={'default'}
-                    className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
+                    className={`cursor-none select-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
                 <div className="flex flex-row gap-2">
 
                     <Button
-                        onClick={() => {
-                            resetMatch()
-                            setIsMatchStarted(false)
-                        }}
+                        onClick={resetMatch}
                         variant={'destructive'}
-                        className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
+                        className={`cursor-none select-none ${!isMatchStarted && "hidden"}`} draggable={false}>{bullet <= 0 ? "Game Over" : "Stop"}</Button>
                 </div>
             </div>
 
-            <div className="fixed bottom-2 left-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
+            <div className="fixed bottom-2 left-2 bg-linear-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="relative">
                         <Crosshair className="size-10 text-white drop-shadow-md" />
@@ -195,7 +201,7 @@ function Range() {
                 </div>
             </div>
 
-            <div className="fixed bottom-2 right-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
+            <div className="fixed bottom-2 right-2 bg-linear-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="relative">
                         <img src="ak47.png" className="size-20 text-white drop-shadow-md" />
