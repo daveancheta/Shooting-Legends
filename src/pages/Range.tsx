@@ -105,8 +105,6 @@ function Range() {
         }
     }
 
-
-
     return (
         <div>
             <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
@@ -127,8 +125,11 @@ function Range() {
                 }}
                 src="saitama.png" alt="saitama"
                 onClick={() => {
-                    shootLeftPos
-                    setScore((score) => score += 1)
+                    if (isMatchStarted) {
+
+                        shootLeftPos
+                        setScore((score) => score += 1)
+                    }
                 }} />
 
             <img className="select-none" ref={mario}
@@ -142,8 +143,10 @@ function Range() {
                 }}
                 src="mario.png" alt="saitama"
                 onClick={() => {
-                    shootRightPos
-                    setScore((score) => score += 1)
+                    if (isMatchStarted) {
+                        shootRightPos
+                        setScore((score) => score += 1)
+                    }
                 }} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
