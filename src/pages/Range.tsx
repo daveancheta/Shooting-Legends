@@ -72,15 +72,18 @@ function Range() {
 
         })
 
-        const startShoot = () => {
-            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
-            gunshotSoundEffect.play()
+        if (isMatchStarted) {
+            const startShoot = () => {
+                const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+                gunshotSoundEffect.play()
 
-        setBullet((bullet) => bullet -= 1)
+                setBullet((bullet) => bullet -= 1)
 
+            }
+
+            document.body.addEventListener("click", startShoot)
         }
-
-        document.body.addEventListener("click", startShoot)
+        
     }, [isMatchStarted])
 
     const shootLeftPos = () => {
@@ -185,7 +188,7 @@ function Range() {
                 </div>
             </div>
 
-              <div className="fixed bottom-2 right-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
+            <div className="fixed bottom-2 right-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="relative">
                         <img src="ak47.png" className="size-20 text-white drop-shadow-md" />
@@ -193,7 +196,7 @@ function Range() {
                     </div>
                     <div className="flex flex-col items-center">
                         <span className="text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
-                            {bullet}
+                            {bullet <= 0 ? "0" : bullet}
                         </span>
                         <p className="text-sm font-semibold text-amber-100 uppercase tracking-wide">
                             Bullet
