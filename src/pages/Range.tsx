@@ -72,12 +72,15 @@ function Range() {
 
         })
 
-        // const startShoot = () => {
-        //     const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
-        //     gunshotSoundEffect.play()
-        // }
+        const startShoot = () => {
+            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+            gunshotSoundEffect.play()
 
-        // document.body.addEventListener("click", startShoot)
+        setBullet((bullet) => bullet -= 1)
+
+        }
+
+        document.body.addEventListener("click", startShoot)
     }, [isMatchStarted])
 
     const shootLeftPos = () => {
