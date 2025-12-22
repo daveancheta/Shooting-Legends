@@ -50,9 +50,8 @@ function Range() {
             }
 
             animationFrameId.current = requestAnimationFrame(autoRun)
-
-
         }
+
         if (isMatchStarted) {
             autoRun()
         } else {
@@ -78,23 +77,29 @@ function Range() {
         // }
 
         // document.body.addEventListener("click", startShoot)
-    })
-
+    }, [isMatchStarted])
 
     const shootLeftPos = () => {
         speed.current += 0.1;
         leftPos.current = -110;
+        setScore((score) => score += 1)
     }
 
     const shootRightPos = () => {
         speed.current += 0.1;
         rightPos.current = -110;
+        setScore((score) => score += 1)
     }
 
     const resetMatch = () => {
         speed.current = 1;
         leftPos.current = 0;
         rightPos.current = 0;
+        setScore(0)
+
+        if (animationFrameId.current) {
+            cancelAnimationFrame(animationFrameId.current)
+        }
 
         if (saitama.current) {
             saitama.current.style.left = "10px";
@@ -124,13 +129,7 @@ function Range() {
                     height: "150px"
                 }}
                 src="saitama.png" alt="saitama"
-                onClick={() => {
-                    if (isMatchStarted) {
-
-                        shootLeftPos
-                        setScore((score) => score += 1)
-                    }
-                }} />
+                onClick={isMatchStarted && shootLeftPos} />
 
             <img className="select-none" ref={mario}
                 draggable={false}
@@ -142,12 +141,7 @@ function Range() {
                     height: "150px",
                 }}
                 src="mario.png" alt="saitama"
-                onClick={() => {
-                    if (isMatchStarted) {
-                        shootRightPos
-                        setScore((score) => score += 1)
-                    }
-                }} />
+                onClick={isMatchStarted && shootRightPos} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
                 <Button
