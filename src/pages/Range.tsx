@@ -1,15 +1,23 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+
+// todo: add start button
+// todo: add reset speed button
+// todo: add crosshair - done
+// todo: add fire sound
 
 function Range() {
     const saitama = useRef<HTMLImageElement | null>(null)
     const mario = useRef<HTMLImageElement | null>(null)
     const speed = useRef<number>(1)
+    const crosshair = useRef<HTMLDivElement | null>(null)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
 
-    useEffect(() => {
+    const mouseX = useRef<number>(0)
+    const mouseY = useRef<number>(0)
 
+    useEffect(() => {
         const autoRun = () => {
             leftPos.current += speed.current;
             rightPos.current += speed.current;
@@ -32,22 +40,42 @@ function Range() {
 
             requestAnimationFrame(autoRun)
         }
+
         autoRun()
+
+        document.body.addEventListener("mousemove", (e) => {
+            mouseX.current = e.clientX
+            mouseY.current = e.clientY
+
+            if (crosshair.current) {
+                crosshair.current.style.left = mouseX.current + "px"
+                crosshair.current.style.top = mouseY.current + "px"
+            }
+
+        })
     })
 
-    const shootSaitama = () => {
-        speed.current += 0.5;
+    const shootLeftPos = () => {
+        speed.current += 0.1;
         leftPos.current = -110;
     }
 
-    const shootMario = () => {
-        speed.current += 0.5;
+    const shootRightPos = () => {
+        speed.current += 0.1;
         rightPos.current = -110;
     }
 
     return (
         <div>
+            <div ref={crosshair} className="fixed flex items-center justify-center pointer-events-none z-50">
+                <div className="relative w-6 h-6">
+                    <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
+                    <div className="absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 bg-white" />
+                </div>
+            </div>
+
             <img className="select-none" ref={saitama}
+            draggable={false}
                 style={{
                     position: "fixed",
                     top: "10px",
@@ -55,10 +83,11 @@ function Range() {
                     width: "150px",
                     height: "150px"
                 }}
-                src="saitama.png" alt="saitama" 
-                onClick={shootSaitama}/>
-                
+                src="saitama.png" alt="saitama"
+                onClick={shootLeftPos} />
+
             <img className="select-none" ref={mario}
+            draggable={false}
                 style={{
                     position: "fixed",
                     top: "150px",
@@ -66,10 +95,9 @@ function Range() {
                     width: "150px",
                     height: "150px",
                 }}
-                src="mario.png" alt="saitama" 
-                onClick={shootMario}/>
+                src="mario.png" alt="saitama"
+                onClick={shootRightPos} />
         </div>
     )
 }
-
 export default Range
