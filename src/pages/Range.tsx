@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react"
 // todo: add fire sound - done
 // todo: add scoreboard - done
 // todo: add +1 score if successfully hit the target - done
-// todo: add ammo
+// todo: add bullet
 // todo: add hit animation
 // todo: add game over if run out of ammo
 
@@ -21,6 +21,7 @@ function Range() {
     const [isMatchStarted, setIsMatchStarted] = useState(false)
     const animationFrameId = useRef<number | null>(null)
     const [score, setScore] = useState(0)
+    const [bullet, setBullet] = useState(47)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -167,15 +168,32 @@ function Range() {
             <div className="fixed bottom-2 left-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="relative">
-                        <Crosshair className="size-10 text-white drop-shadow-md animate-pulse" />
-                        <div className="absolute inset-0 bg-amber-300/20 rounded-full blur-md animate-ping" />
+                        <Crosshair className="size-10 text-white drop-shadow-md" />
+                        <div className="absolute inset-0 bg-amber-300/20 rounded-full blur-md" />
                     </div>
                     <div className="flex flex-col items-center">
-                        <span className="animate-bounce text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
+                        <span className="text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
                             {score}
                         </span>
                         <p className="text-sm font-semibold text-amber-100 uppercase tracking-wide">
                             Score
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+              <div className="fixed bottom-2 right-2 bg-gradient-to-br from-amber-500 to-amber-700 p-3 rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm">
+                <div className="flex flex-row gap-3 items-center">
+                    <div className="relative">
+                        <img src="ak47.png" className="size-20 text-white drop-shadow-md" />
+                        <div className="absolute inset-0 bg-amber-300/20 rounded-full blur-md" />
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <span className="text-3xl font-bold text-white tracking-wider drop-shadow-md transition-all duration-300 hover:scale-110">
+                            {bullet}
+                        </span>
+                        <p className="text-sm font-semibold text-amber-100 uppercase tracking-wide">
+                            Bullet
                         </p>
                     </div>
                 </div>
