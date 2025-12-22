@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react"
 // todo: add stop button - done
 // todo: add reset speed button - done
 // todo: add crosshair - done
-// todo: add fire sound
+// todo: add fire sound - done
 
 function Range() {
     const saitama = useRef<HTMLImageElement | null>(null)
@@ -64,7 +64,21 @@ function Range() {
             }
 
         })
+
+        const startShoot = () => {
+            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+            gunshotSoundEffect.play()
+        }
+
+        const stopShoot = () => {
+            const gunshotSoundEffect = new Audio("/sounds/gunshot.MP3")
+            gunshotSoundEffect.pause()
+        }
+
+        document.body.addEventListener("mousedown", startShoot)
+        document.body.addEventListener("mouseup", stopShoot)
     })
+
 
     const shootLeftPos = () => {
         speed.current += 0.1;
@@ -89,6 +103,8 @@ function Range() {
             mario.current.style.right = "10px";
         }
     }
+
+
 
     return (
         <div>
