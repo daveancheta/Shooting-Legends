@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from "react"
 // todo: add reset speed button - done
 // todo: add crosshair - done
 // todo: add fire sound - done
+// todo: add scoreboard
+// todo: add ammo
+// todo: add hit animation
+// todo: add game over if run out of ammo
 
 function Range() {
     const saitama = useRef<HTMLImageElement | null>(null)
