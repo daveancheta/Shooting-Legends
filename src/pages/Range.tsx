@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { useEffect, useRef, useState } from "react"
 
 // todo: add start button
@@ -10,6 +11,7 @@ function Range() {
     const mario = useRef<HTMLImageElement | null>(null)
     const speed = useRef<number>(1)
     const crosshair = useRef<HTMLDivElement | null>(null)
+    const [isMatchStarted, setIsMatchStarted] = useState(false)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -41,7 +43,9 @@ function Range() {
             requestAnimationFrame(autoRun)
         }
 
-        autoRun()
+        if (isMatchStarted) {
+            autoRun()
+        }
 
         document.body.addEventListener("mousemove", (e) => {
             mouseX.current = e.clientX
@@ -74,8 +78,15 @@ function Range() {
                 </div>
             </div>
 
+            <div className="fixed bottom-10 w-screen flex justify-center">
+                <Button
+                    onClick={() => setIsMatchStarted(true)}
+                    variant={'default'}
+                    className={`cursor-none`} draggable={false}>Start</Button>
+            </div>
+
             <img className="select-none" ref={saitama}
-            draggable={false}
+                draggable={false}
                 style={{
                     position: "fixed",
                     top: "10px",
@@ -87,7 +98,7 @@ function Range() {
                 onClick={shootLeftPos} />
 
             <img className="select-none" ref={mario}
-            draggable={false}
+                draggable={false}
                 style={{
                     position: "fixed",
                     top: "150px",
@@ -97,6 +108,8 @@ function Range() {
                 }}
                 src="mario.png" alt="saitama"
                 onClick={shootRightPos} />
+
+
         </div>
     )
 }
