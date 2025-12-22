@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { useEffect, useRef, useState } from "react"
 
-// todo: add start button
+// todo: add start button - done
+// todo: add stop button - done
 // todo: add reset speed button
 // todo: add crosshair - done
 // todo: add fire sound
@@ -12,6 +13,7 @@ function Range() {
     const speed = useRef<number>(1)
     const crosshair = useRef<HTMLDivElement | null>(null)
     const [isMatchStarted, setIsMatchStarted] = useState(false)
+    const animationFrameId = useRef<number | null>(null)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -40,12 +42,17 @@ function Range() {
                 rightPos.current = -110;
             }
 
-            requestAnimationFrame(autoRun)
-        }
+            animationFrameId.current = requestAnimationFrame(autoRun)
 
-        if (isMatchStarted) {
-            autoRun()
+
         }
+            if (isMatchStarted) {
+                autoRun()
+            } else {
+                if (animationFrameId.current) {
+                    cancelAnimationFrame(animationFrameId.current)
+                }
+            }
 
         document.body.addEventListener("mousemove", (e) => {
             mouseX.current = e.clientX
@@ -82,7 +89,12 @@ function Range() {
                 <Button
                     onClick={() => setIsMatchStarted(true)}
                     variant={'default'}
-                    className={`cursor-none`} draggable={false}>Start</Button>
+                    className={`cursor-none ${isMatchStarted && "hidden"}`} draggable={false}>Start</Button>
+
+                <Button
+                    onClick={() => setIsMatchStarted(false)}
+                    variant={'default'}
+                    className={`cursor-none ${!isMatchStarted && "hidden"}`} draggable={false}>Stop</Button>
             </div>
 
             <img className="select-none" ref={saitama}
