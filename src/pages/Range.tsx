@@ -11,7 +11,7 @@ import GameOver from "./GameOver"
 // todo: add scoreboard - done
 // todo: add +1 score if successfully hit the target - done
 // todo: add bullet - done
-// todo: add hit animation
+// todo: add hit animation - done
 // todo: add game over if run out of ammo - done
 // todo: add cursor option
 // todo: add settings for difficulty
@@ -27,6 +27,7 @@ function Range() {
     let MAX_BULLET = 47
     const [bullet, setBullet] = useState(MAX_BULLET)
     const startButton = useRef<HTMLButtonElement | null>(null)
+    const [hitmark, setHitmark] = useState(false)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -100,12 +101,20 @@ function Range() {
         speed.current += 0.1;
         leftPos.current = -110;
         setScore((score) => score += 1)
+        setHitmark(true)
+        setTimeout(() => {
+            setHitmark(false)
+        }, 200)
     }
 
     const shootRightPos = () => {
         speed.current += 0.1;
         rightPos.current = -110;
         setScore((score) => score += 1)
+        setHitmark(true)
+        setTimeout(() => {
+            setHitmark(false)
+        }, 200)
     }
 
     const resetMatch = () => {
@@ -133,13 +142,14 @@ function Range() {
     return (
         <div>
             {bullet <= 0 &&
-            <div className="inset-0 fixed z-9999">
-                <GameOver finalScore={score} restart={resetMatch} />
-            </div>}
+                <div className="inset-0 fixed z-9999">
+                    <GameOver finalScore={score} restart={resetMatch} />
+                </div>}
             <div ref={crosshair} className={`fixed flex items-center justify-center pointer-events-none z-50 ${bullet <= 0 && "hidden"}`}>
                 <div className="relative w-6 h-6">
-                    <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-white" />
-                    <div className="absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 bg-white" />
+                    <div className={`absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 z-30 ${hitmark ? "bg-red-600" : "bg-white"}`} />
+                    <div className={`absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-30 ${hitmark ? "bg-red-600" : "bg-white"}`} />
+                    <Crosshair className={`absolute size-4 top-1/2 left-1 -translate-y-1/2 text-red-500 z-20 ${!hitmark && "opacity-0"}`} />
                 </div>
             </div>
 
