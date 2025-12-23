@@ -156,8 +156,14 @@ function Range() {
             <button
                 className="fixed top-2 right-2 bg-linear-to-br from-amber-500 to-amber-700 p-3 
             rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none">
-                <Settings2/>
+                <Settings2 />
             </button>
+
+            <div className="w-screen flex justify-center">
+                <div className="fixed bg-linear-to-br from-amber-500 to-amber-700 p-3 
+            rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none">
+                </div>
+            </div>
 
             <img className="select-none" ref={DarkPaladin}
                 draggable={false}
