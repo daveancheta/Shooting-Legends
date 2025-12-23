@@ -5,7 +5,7 @@
 
 > Shootings Legends: A practice shooter game featuring retro pixel characters.
 
-### 🏠 [Homepage](Range.tsx)
+### 🏠 [Homepage](src/pages/Range.tsx)
 
 ## Getting Started
 
@@ -19,6 +19,10 @@ cd Shooting-Legends
 
 ```sh
 npm install
+```
+
+```sh
+npm run dev
 ```
 
 ## Author
