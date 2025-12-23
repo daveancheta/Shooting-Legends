@@ -21,6 +21,10 @@ cd Shooting-Legends
 npm install
 ```
 
+```sh
+npm run dev
+```
+
 ## Author
 
 👤 **Heaven Dave Quimpo Ancheta**
