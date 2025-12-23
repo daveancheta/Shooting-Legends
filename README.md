@@ -7,15 +7,19 @@
 
 ### 🏠 [Homepage](Range.tsx)
 
-```bash
-# Clone the repository
-git clone https://github.com/daveancheta/Shooting-Legends.git
+## Getting Started
 
-# Navigate into the project folder
+```sh
+git clone https://github.com/daveancheta/Shooting-Legends
+```
+
+```sh
 cd Shooting-Legends
+```
 
-# Install dependencies
+```sh
 npm install
+```
 
 ## Author
 
