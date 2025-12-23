@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Crosshair } from "lucide-react"
+import { Crosshair, Settings2 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import GameOver from "./GameOver"
 
@@ -152,6 +152,12 @@ function Range() {
                     <Crosshair className={`absolute size-4 top-1/2 left-1 -translate-y-1/2 text-red-500 z-20 ${!hitmark && "opacity-0"}`} />
                 </div>
             </div>
+
+            <button
+                className="fixed top-2 right-2 bg-linear-to-br from-amber-500 to-amber-700 p-3 
+            rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none">
+                <Settings2/>
+            </button>
 
             <img className="select-none" ref={DarkPaladin}
                 draggable={false}
