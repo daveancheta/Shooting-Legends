@@ -17,8 +17,8 @@ import GameOver from "./GameOver"
 // todo: add settings for difficulty
 
 function Range() {
-    const saitama = useRef<HTMLImageElement | null>(null)
-    const mario = useRef<HTMLImageElement | null>(null)
+    const DarkPaladin = useRef<HTMLImageElement | null>(null)
+    const Wraith = useRef<HTMLImageElement | null>(null)
     const speed = useRef<number>(1)
     const crosshair = useRef<HTMLDivElement | null>(null)
     const [isMatchStarted, setIsMatchStarted] = useState(false)
@@ -40,12 +40,12 @@ function Range() {
             leftPos.current += speed.current;
             rightPos.current += speed.current;
 
-            if (saitama.current) {
-                saitama.current.style.left = leftPos.current + "px"
+            if (DarkPaladin.current) {
+                DarkPaladin.current.style.left = leftPos.current + "px"
             }
 
-            if (mario.current) {
-                mario.current.style.right = rightPos.current + "px"
+            if (Wraith.current) {
+                Wraith.current.style.right = rightPos.current + "px"
             }
 
             if (leftPos.current > window.innerWidth) {
@@ -129,12 +129,12 @@ function Range() {
             cancelAnimationFrame(animationFrameId.current)
         }
 
-        if (saitama.current) {
-            saitama.current.style.left = "10px";
+        if (DarkPaladin.current) {
+            DarkPaladin.current.style.left = "10px";
         }
 
-        if (mario.current) {
-            mario.current.style.right = "10px";
+        if (Wraith.current) {
+            Wraith.current.style.right = "10px";
         }
     }
 
@@ -153,7 +153,7 @@ function Range() {
                 </div>
             </div>
 
-            <img className="select-none" ref={saitama}
+            <img className="select-none" ref={DarkPaladin}
                 draggable={false}
                 style={{
                     position: "fixed",
@@ -163,10 +163,10 @@ function Range() {
                     height: "150px",
                     background: "none"
                 }}
-                src="saitama.png" alt="saitama"
+                src="dark-paladin.png" alt="saitama"
                 onClick={isMatchStarted && shootLeftPos} />
 
-            <img className="select-none" ref={mario}
+            <img className="select-none" ref={Wraith}
                 draggable={false}
                 style={{
                     position: "fixed",
@@ -175,7 +175,7 @@ function Range() {
                     width: "150px",
                     height: "150px",
                 }}
-                src="mario.png" alt="saitama"
+                src="wraith.png" alt="saitama"
                 onClick={isMatchStarted && shootRightPos} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
