@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Crosshair, Settings2 } from "lucide-react"
+import { Crosshair, Settings2, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import GameOver from "./GameOver"
 
@@ -28,6 +28,7 @@ function Range() {
     const [bullet, setBullet] = useState(MAX_BULLET)
     const startButton = useRef<HTMLButtonElement | null>(null)
     const [hitmark, setHitmark] = useState(false)
+    const [category, setCategory] = useState<string | null>(null)
 
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
@@ -162,6 +163,21 @@ function Range() {
             <div className="w-screen flex justify-center">
                 <div className="fixed bg-linear-to-br from-amber-500 to-amber-700 p-3 
             rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none">
+                    <div className="flex justify-between">
+                        <h1>SETTINGS</h1>
+                        <button className=" cursor-none"><X /></button>
+                    </div>
+                    <hr />
+                    <div className="bg-amber-900/30 mt-2 flex justify-between space-x-4 p-2 rounded-sm">
+                        <button
+                            className={`${category === "difficulty" || category === null ? "bg-amber-900/50" : ""} p-2 rounded-sm cursor-none`}
+                            onClick={() => setCategory("difficulty")}
+                        >Difficulty</button>
+                        <button
+                            className={`${category === "crosshair" && "bg-amber-900/50"} p-2 rounded-sm cursor-none`}
+                            onClick={() => setCategory("crosshair")}
+                        >Crosshair</button>
+                    </div>
                 </div>
             </div>
 
