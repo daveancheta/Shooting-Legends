@@ -19,7 +19,6 @@ import GameOver from "./GameOver"
 function Range() {
     const DarkPaladin = useRef<HTMLImageElement | null>(null)
     const Wraith = useRef<HTMLImageElement | null>(null)
-    const speed = useRef<number>(1)
     const crosshair = useRef<HTMLDivElement | null>(null)
     const [isMatchStarted, setIsMatchStarted] = useState(false)
     const animationFrameId = useRef<number | null>(null)
@@ -29,17 +28,18 @@ function Range() {
     const startButton = useRef<HTMLButtonElement | null>(null)
     const [hitmark, setHitmark] = useState(false)
     const [category, setCategory] = useState<string | null>(null)
-
+    const [difficulty, setDifficulty] = useState<number>(1)
     const leftPos = useRef<number>(10)
     const rightPos = useRef<number>(10)
+    let speed = difficulty
 
     const mouseX = useRef<number>(0)
     const mouseY = useRef<number>(0)
-
+   
     useEffect(() => {
         const autoRun = () => {
-            leftPos.current += speed.current;
-            rightPos.current += speed.current;
+            leftPos.current += speed;
+            rightPos.current += speed;
 
             if (DarkPaladin.current) {
                 DarkPaladin.current.style.left = leftPos.current + "px"
@@ -99,7 +99,7 @@ function Range() {
     }
 
     const shootLeftPos = () => {
-        speed.current += 0.1;
+        speed += 0.1;
         leftPos.current = -110;
         setScore((score) => score += 1)
         setHitmark(true)
@@ -109,7 +109,7 @@ function Range() {
     }
 
     const shootRightPos = () => {
-        speed.current += 0.1;
+        speed += 0.1;
         rightPos.current = -110;
         setScore((score) => score += 1)
         setHitmark(true)
@@ -119,7 +119,7 @@ function Range() {
     }
 
     const resetMatch = () => {
-        speed.current = 1;
+        speed = 1;
         leftPos.current = 0;
         rightPos.current = 0;
         setScore(0)
@@ -160,9 +160,9 @@ function Range() {
                 <Settings2 />
             </button>
 
-            <div className="w-screen flex justify-center">
+            <div className="w-screen h-screen flex justify-center items-center">
                 <div className="fixed bg-linear-to-br from-amber-500 to-amber-700 p-3 
-            rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none">
+            rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none min-w-120">
                     <div className="flex justify-between">
                         <h1>SETTINGS</h1>
                         <button className=" cursor-none"><X /></button>
@@ -170,13 +170,24 @@ function Range() {
                     <hr />
                     <div className="bg-amber-900/30 mt-2 flex justify-between space-x-4 p-2 rounded-sm">
                         <button
-                            className={`${category === "difficulty" || category === null ? "bg-amber-900/50" : ""} p-2 rounded-sm cursor-none`}
+                            className={`${category === "difficulty" || category === null ? "bg-amber-900/50" : ""} p-2 rounded-sm cursor-none flex-1`}
                             onClick={() => setCategory("difficulty")}
                         >Difficulty</button>
                         <button
-                            className={`${category === "crosshair" && "bg-amber-900/50"} p-2 rounded-sm cursor-none`}
+                            className={`${category === "crosshair" && "bg-amber-900/50"} p-2 rounded-sm cursor-none flex-1`}
                             onClick={() => setCategory("crosshair")}
                         >Crosshair</button>
+                    </div>
+                    <div className='flex flex-col mt-2 gap-2'>
+                        <button className='cursor-none bg-green-500 p-1 py-3 rounded-sm hover:bg-green-600' onClick={() => setDifficulty(1)}>
+                            Easy
+                        </button>
+                        <button className='cursor-none bg-yellow-500 p-1 py-3 rounded-sm hover:bg-yellow-600' onClick={() => setDifficulty(5)}>
+                            Medium
+                        </button>
+                        <button className='cursor-none bg-red-500 p-1 py-3 rounded-sm hover:bg-red-600' onClick={() => setDifficulty(10)}>
+                            Hard
+                        </button>
                     </div>
                 </div>
             </div>
