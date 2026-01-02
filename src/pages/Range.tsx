@@ -3,19 +3,6 @@ import { Crosshair, Settings2, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import GameOver from "./GameOver"
 
-// todo: add start button - done
-// todo: add stop button - done
-// todo: add reset speed button - done
-// todo: add crosshair - done
-// todo: add fire sound - done
-// todo: add scoreboard - done
-// todo: add +1 score if successfully hit the target - done
-// todo: add bullet - done
-// todo: add hit animation - done
-// todo: add game over if run out of ammo - done
-// todo: add cursor option
-// todo: add settings for difficulty
-
 function Range() {
     const DarkPaladin = useRef<HTMLImageElement | null>(null)
     const Wraith = useRef<HTMLImageElement | null>(null)
@@ -156,7 +143,7 @@ function Range() {
                     }} />
                     <div className={`absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-30`} style={{
                         background: crosshairColor
-                    }}/>
+                    }} />
                     <Crosshair className={`absolute size-4 top-1/2 left-1 -translate-y-1/2 text-red-500 z-20 ${!hitmark && "opacity-0"}`} />
                 </div>
             </div>
