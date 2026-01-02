@@ -33,6 +33,8 @@ function Range() {
     const rightPos = useRef<number>(10)
     const [isShowSettings, setIsShowSettings] = useState(false)
     let speed = difficulty
+    const [color, setColor] = useState<String | null>("#FFFFFF")
+    const [crosshairColor, setCrosshairColor] = useState<String | null>("#FFFFFF")
 
     const mouseX = useRef<number>(0)
     const mouseY = useRef<number>(0)
@@ -149,8 +151,12 @@ function Range() {
                 </div>}
             <div ref={crosshair} className={`fixed flex items-center justify-center pointer-events-none z-50 ${bullet <= 0 && "hidden"}`}>
                 <div className="relative w-6 h-6">
-                    <div className={`absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 z-30 ${hitmark ? "bg-red-600" : "bg-white"}`} />
-                    <div className={`absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-30 ${hitmark ? "bg-red-600" : "bg-white"}`} />
+                    <div className={`absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 z-30`} style={{
+                        background: crosshairColor
+                    }} />
+                    <div className={`absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-30`} style={{
+                        background: crosshairColor
+                    }}/>
                     <Crosshair className={`absolute size-4 top-1/2 left-1 -translate-y-1/2 text-red-500 z-20 ${!hitmark && "opacity-0"}`} />
                 </div>
             </div>
@@ -180,7 +186,7 @@ function Range() {
                             onClick={() => setCategory("crosshair")}
                         >Crosshair</button>
                     </div>
-                    <div className='flex flex-col mt-2 gap-2'>
+                    <div className={`flex flex-col mt-2 gap-2 ${category === "difficulty" || category === null ? "" : "hidden"}`}>
                         <button className={`cursor-none bg-green-500 p-1 py-3 rounded-sm hover:bg-green-600 ${difficulty === 1 && "bg-green-600"}`} onClick={() => setDifficulty(1)}>
                             <span className={`${difficulty === 1 && "underline"}`}>Easy</span>
                         </button>
@@ -190,6 +196,23 @@ function Range() {
                         <button className={`cursor-none bg-red-500 p-1 py-3 rounded-sm hover:bg-red-600 ${difficulty === 10 && "bg-red-600"}`} onClick={() => setDifficulty(10)}>
                             <span className={`${difficulty === 10 && "underline"}`}>Hard</span>
                         </button>
+                    </div>
+                    <div className={`flex flex-col mt-2 gap-2 ${category !== "crosshair" && "hidden"}`}>
+                        <div className="relative">
+                            <img className="flex-1 w-full" src="merged-full-background.png" alt="" />
+                            <div className={`absolute justify-center pointer-events-none z-50 top-40 left-50`}>
+                                <div className="relative w-6 h-6">
+                                    <div className={`absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 z-30`} style={{
+                                        background: color
+                                    }} />
+                                    <div className={`absolute top-1/2 left-0 w-full h-0.5 -translate-y-1/2 z-30`} style={{
+                                        background: color
+                                    }} />
+                                </div>
+                            </div>
+                        </div>
+                        <input className="w-full min-h-10 cursor-default" type="color" onChange={(e) => setColor(e.target.value)} />
+                        <Button className="cursor-none" variant={'secondary'} onClick={() => setCrosshairColor(color)}>Apply</Button>
                     </div>
                 </div>
             </div>
