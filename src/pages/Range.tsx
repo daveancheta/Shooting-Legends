@@ -179,14 +179,14 @@ function Range() {
                         >Crosshair</button>
                     </div>
                     <div className='flex flex-col mt-2 gap-2'>
-                        <button className='cursor-none bg-green-500 p-1 py-3 rounded-sm hover:bg-green-600' onClick={() => setDifficulty(1)}>
-                            Easy
+                        <button className={`cursor-none bg-green-500 p-1 py-3 rounded-sm hover:bg-green-600 ${difficulty === 1 && "bg-green-600"}`} onClick={() => setDifficulty(1)}>
+                            <span className={`${difficulty === 1 && "underline"}`}>Easy</span>
                         </button>
-                        <button className='cursor-none bg-yellow-500 p-1 py-3 rounded-sm hover:bg-yellow-600' onClick={() => setDifficulty(5)}>
-                            Medium
+                        <button className={`cursor-none bg-yellow-500 p-1 py-3 rounded-sm hover:bg-yellow-600 ${difficulty === 5 && "bg-yellow-600"}`} onClick={() => setDifficulty(5)}>
+                            <span className={`${difficulty === 5 && "underline"}`}>Medium</span>
                         </button>
-                        <button className='cursor-none bg-red-500 p-1 py-3 rounded-sm hover:bg-red-600' onClick={() => setDifficulty(10)}>
-                            Hard
+                        <button className={`cursor-none bg-red-500 p-1 py-3 rounded-sm hover:bg-red-600 ${difficulty === 10 && "bg-red-600"}`} onClick={() => setDifficulty(10)}>
+                            <span className={`${difficulty === 10 && "underline"}`}>Hard</span>
                         </button>
                     </div>
                 </div>
