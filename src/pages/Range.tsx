@@ -161,7 +161,7 @@ function Range() {
                 <Settings2 />
             </button>
 
-            <div className={`w-screen h-screen flex justify-center items-center transition-all duration-300 origin-top-right ${isShowSettings ? "scale-100 opacity-100" : "opacity-0 scale-0"}`}>
+            <div className={`w-screen h-screen flex justify-center items-center transition-all duration-300 origin-top-right ${isShowSettings && !isMatchStarted ? "scale-100 opacity-100" : "opacity-0 scale-0"}`}>
                 <div className="fixed bg-linear-to-br from-amber-500 to-amber-700 p-3 
             rounded-lg shadow-lg border-2 border-amber-400/50 backdrop-blur-sm select-none cursor-none min-w-120">
                     <div className="flex justify-between">
