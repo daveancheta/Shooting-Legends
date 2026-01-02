@@ -192,7 +192,10 @@ function Range() {
                     background: "none"
                 }}
                 src="dark-paladin.png" alt="saitama"
-                onClick={isMatchStarted && shootLeftPos} />
+                onClick={() => {
+                    if (isMatchStarted)
+                        shootLeftPos()
+                }} />
 
             <img className="select-none" ref={Wraith}
                 draggable={false}
@@ -204,7 +207,10 @@ function Range() {
                     height: "150px",
                 }}
                 src="wraith.png" alt="saitama"
-                onClick={isMatchStarted && shootRightPos} />
+                onClick={() => {
+                    if (isMatchStarted)
+                        shootRightPos()
+                }} />
 
             <div className="fixed bottom-10 w-screen flex justify-center">
                 <Button ref={startButton}
