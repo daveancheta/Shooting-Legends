@@ -33,8 +33,8 @@ function Range() {
     const rightPos = useRef<number>(10)
     const [isShowSettings, setIsShowSettings] = useState(false)
     let speed = difficulty
-    const [color, setColor] = useState<String | null>("#FFFFFF")
-    const [crosshairColor, setCrosshairColor] = useState<String | null>("#FFFFFF")
+    const [color, setColor] = useState("#FFFFFF")
+    const [crosshairColor, setCrosshairColor] = useState("#FFFFFF")
 
     const mouseX = useRef<number>(0)
     const mouseY = useRef<number>(0)
