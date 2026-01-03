@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button"
 import { Crosshair, Settings2, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import GameOver from "./GameOver"
+import { useIsMobile } from "@/hooks/use-mobile"
+import Mobile from "./Mobile"
 
 function Range() {
     const DarkPaladin = useRef<HTMLImageElement | null>(null)
@@ -22,6 +24,7 @@ function Range() {
     let speed = difficulty
     const [color, setColor] = useState("#FFFFFF")
     const [crosshairColor, setCrosshairColor] = useState("#FFFFFF")
+    const isMobile = useIsMobile()
 
     const mouseX = useRef<number>(0)
     const mouseY = useRef<number>(0)
@@ -129,6 +132,7 @@ function Range() {
         }
     }
 
+    if(isMobile) return <Mobile/>;
 
     return (
         <div>
